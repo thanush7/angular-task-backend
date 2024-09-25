@@ -87,6 +87,7 @@ public class DepartmentService {
         return new ResponseEntity<>(dept,HttpStatus.CREATED);
     }
 
+    @SuppressWarnings("rawtypes")
     public ResponseEntity deleteDepartment(Long id) {
         departmentRepository.deleteById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -104,7 +105,7 @@ public class DepartmentService {
         if (departmentOptional.isPresent()) {
             Department existingDepartment = departmentOptional.get();
             existingDepartment.setName(departmentDetails.getName());
-            existingDepartment.setEmployees(departmentDetails.getEmployees()); // Update employees
+            existingDepartment.setEmployees(departmentDetails.getEmployees());
             return departmentRepository.save(existingDepartment);
         } else {
             throw new RuntimeException("Department not found with id " + id);

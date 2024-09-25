@@ -75,6 +75,7 @@ public class DepartmentController {
         return departmentService.createDepartment(department);
     }
 
+    @SuppressWarnings("rawtypes")
     @DeleteMapping("/department/{id}")
     public ResponseEntity deleteDepartment(@PathVariable Long id) {
         return departmentService.deleteDepartment(id);
@@ -101,9 +102,4 @@ public class DepartmentController {
         Department updatedDepartment = departmentService.updateDepartmentAndEmployee(id, departmentDetails);
         return ResponseEntity.ok(updatedDepartment);
     }
-
-    // @GetMapping("/deparmentbyid/{id}")
-    // public Deparment getDepartment(@PathVariable int id){
-    //     return departmentService.getDepartmentById(id);
-    // }
 }
