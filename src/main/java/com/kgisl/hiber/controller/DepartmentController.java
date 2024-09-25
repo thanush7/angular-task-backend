@@ -1,7 +1,10 @@
 package com.kgisl.hiber.controller;
 
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,7 +22,7 @@ import com.kgisl.hiber.service.DepartmentService;
 
 @RestController
 @RequestMapping("/departments")
-@CrossOrigin(origins="http://localhost:4200")
+@CrossOrigin(origins = "http://localhost:4200")
 public class DepartmentController {
 
     @Autowired
@@ -63,17 +66,44 @@ public class DepartmentController {
     }
 
     @PostMapping("/create/{id}")
-    public Employee createByDepartmentId(@PathVariable Long id,@RequestBody Employee employee){
-        return departmentService.createByDepartmentId(id,employee);
+    public Employee createByDepartmentId(@PathVariable Long id, @RequestBody Employee employee) {
+        return departmentService.createByDepartmentId(id, employee);
     }
 
     @PostMapping("/create/department")
-    public Department createDepartment(@RequestBody Department department){
+    public ResponseEntity<Department> createDepartment(@RequestBody Department department) {
         return departmentService.createDepartment(department);
     }
 
     @DeleteMapping("/department/{id}")
-    public ResponseEntity deleteDepartment(@PathVariable Long id){
+    public ResponseEntity deleteDepartment(@PathVariable Long id) {
         return departmentService.deleteDepartment(id);
     }
+
+    @GetMapping("/whole")
+    public ResponseEntity<List<Department>> getAllDepartmentsWithEmployees() {
+        List<Department> departments = departmentService.getAllDepartmentsWithEmployees();
+        if (departments != null && !departments.isEmpty()) {
+            return ResponseEntity.ok(departments);
+        } else {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+        }
+    }
+
+    @GetMapping("/departmentId/{id}")
+    public Optional<Department> getAllDeparmentwithEmployeeById(@PathVariable Long id) {
+        Optional<Department> departments = departmentService.getDepartmentById(id);
+        return departments;
+    }
+
+    @PutMapping("/departmentId/{id}")
+    public ResponseEntity<Department> updateDepartmentAndEmployee(@PathVariable Long id, @RequestBody Department departmentDetails) {
+        Department updatedDepartment = departmentService.updateDepartmentAndEmployee(id, departmentDetails);
+        return ResponseEntity.ok(updatedDepartment);
+    }
+
+    // @GetMapping("/deparmentbyid/{id}")
+    // public Deparment getDepartment(@PathVariable int id){
+    //     return departmentService.getDepartmentById(id);
+    // }
 }

@@ -2,8 +2,6 @@ package com.kgisl.hiber.pojo;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -22,7 +20,7 @@ public class Department {
 
     // One Department can have many Employees
     @OneToMany(mappedBy = "department", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonBackReference
+    // @JsonBackReference
     private List<Employee> employees;
 
     // Getters and Setters

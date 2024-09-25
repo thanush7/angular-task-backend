@@ -22,6 +22,10 @@ public class Employee {
 
     private String mobile;
 
+    private String gender;
+
+    private String city;
+
     // Many Employees belong to one Department
     @ManyToOne
     @JoinColumn(name = "department_id")
@@ -67,6 +71,22 @@ public class Employee {
 
     public void setMobile(String mobile) {
         this.mobile = mobile;
+    }
+
+    public String getGender() {
+        return this.gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getCity() {
+        return this.city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
     }
 
 }
