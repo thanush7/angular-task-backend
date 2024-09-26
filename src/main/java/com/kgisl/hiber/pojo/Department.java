@@ -1,7 +1,7 @@
 package com.kgisl.hiber.pojo;
 
-import java.util.List;
 
+import  java.util.*;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -26,8 +26,8 @@ public class Department {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setId(String id) {
+     this.id=id;
     }
 
     public String getName() {

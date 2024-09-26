@@ -36,16 +36,16 @@ public class DepartmentService {
         return ResponseEntity.ok().body(Collections.singletonMap("message", "Department and employees created successfully"));
     }
 
-    public Employee getEmployee(Long id) {
+    public Employee getEmployee(String id) {
         return employeeRepository.findById(id).orElse(null);
     }
 
-    public List<Employee> getEmployeesByDepartmentId(Long departmentId) {
+    public List<Employee> getEmployeesByDepartmentId(String departmentId) {
         return employeeRepository.findByDepartmentId(departmentId);
     }
 
     @SuppressWarnings("rawtypes")
-    public ResponseEntity deleteEmployee(Long id) {
+    public ResponseEntity deleteEmployee(String id) {
         employeeRepository.deleteById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
@@ -54,7 +54,7 @@ public class DepartmentService {
         return departmentRepository.findAll();
     }
 
-    public Employee updateEmployee(Long id, Employee emp) {
+    public Employee updateEmployee(String id, Employee emp) {
         Employee employee = employeeRepository.findById(id).orElseThrow(() -> new RuntimeException("Employee not found"));
         employee.setName(emp.getName());
         employee.setEmail(emp.getEmail());
@@ -70,13 +70,13 @@ public class DepartmentService {
     }
     
 
-    public Department updateDepartment(Long id, Department dep) {
+    public Department updateDepartment(String id, Department dep) {
         Department department = departmentRepository.findById(id).orElseThrow();
         department.setName(dep.getName());
         return departmentRepository.save(department);
     }
 
-    public Employee createByDepartmentId(Long id, Employee emp) {
+    public Employee createByDepartmentId(String id, Employee emp) {
         Department department=departmentRepository.findById(id).orElseThrow();
         emp.setDepartment(department);
         return employeeRepository.save(emp);
@@ -88,7 +88,7 @@ public class DepartmentService {
     }
 
     @SuppressWarnings("rawtypes")
-    public ResponseEntity deleteDepartment(Long id) {
+    public ResponseEntity deleteDepartment(String id) {
         departmentRepository.deleteById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
@@ -97,10 +97,10 @@ public class DepartmentService {
         return departmentRepository.findAll(); 
     }
 
-    public Optional<Department> getDepartmentById(Long id){
+    public Optional<Department> getDepartmentById(String id){
         return departmentRepository.findById(id);
     }
-    public Department updateDepartmentAndEmployee(Long id, Department departmentDetails) {
+    public Department updateDepartmentAndEmployee(String id, Department departmentDetails) {
         Optional<Department> departmentOptional = departmentRepository.findById(id);
         if (departmentOptional.isPresent()) {
             Department existingDepartment = departmentOptional.get();
@@ -111,7 +111,7 @@ public class DepartmentService {
             throw new RuntimeException("Department not found with id " + id);
         }
     }
-    public String getDepartmentName(Long id){
+    public String getDepartmentName(String id){
         Optional<Department> department=departmentRepository.findById(id);
         return department.get().getName();
         

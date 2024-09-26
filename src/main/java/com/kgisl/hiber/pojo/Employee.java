@@ -13,8 +13,8 @@ import jakarta.persistence.ManyToOne;
 public class Employee {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private String id;
 
     private String name;
 
@@ -32,11 +32,11 @@ public class Employee {
     private Department department;
 
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

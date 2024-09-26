@@ -37,18 +37,18 @@ public class DepartmentController {
     }
 
     @GetMapping("/employees/{id}")
-    public Employee getEmployee(@PathVariable Long id) {
+    public Employee getEmployee(@PathVariable String id) {
         return departmentService.getEmployee(id);
     }
 
     @GetMapping("/{departmentId}")
-    public List<Employee> getEmployeesByDepartmentId(@PathVariable Long departmentId) {
+    public List<Employee> getEmployeesByDepartmentId(@PathVariable String departmentId) {
         return departmentService.getEmployeesByDepartmentId(departmentId);
     }
 
     @SuppressWarnings("rawtypes")
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteEmployee(@PathVariable Long id) {
+    public ResponseEntity deleteEmployee(@PathVariable String id) {
         return departmentService.deleteEmployee(id);
     }
 
@@ -58,17 +58,17 @@ public class DepartmentController {
     }
 
     @PutMapping("/{id}")
-    public Employee updateEmployee(@PathVariable Long id, @RequestBody Employee employee) {
+    public Employee updateEmployee(@PathVariable String id, @RequestBody Employee employee) {
         return departmentService.updateEmployee(id, employee);
     }
 
     @PutMapping("deparmart/{id}")
-    public Department updateDepartment(@PathVariable Long id, @RequestBody Department department) {
+    public Department updateDepartment(@PathVariable String id, @RequestBody Department department) {
         return departmentService.updateDepartment(id, department);
     }
 
     @PostMapping("/create/{id}")
-    public Employee createByDepartmentId(@PathVariable Long id, @RequestBody Employee employee) {
+    public Employee createByDepartmentId(@PathVariable String id, @RequestBody Employee employee) {
         return departmentService.createByDepartmentId(id, employee);
     }
 
@@ -79,7 +79,7 @@ public class DepartmentController {
 
     @SuppressWarnings("rawtypes")
     @DeleteMapping("/department/{id}")
-    public ResponseEntity deleteDepartment(@PathVariable Long id) {
+    public ResponseEntity deleteDepartment(@PathVariable String id) {
         return departmentService.deleteDepartment(id);
     }
 
@@ -94,19 +94,19 @@ public class DepartmentController {
     }
 
     @GetMapping("/departmentId/{id}")
-    public Optional<Department> getAllDeparmentwithEmployeeById(@PathVariable Long id) {
+    public Optional<Department> getAllDeparmentwithEmployeeById(@PathVariable String id) {
         Optional<Department> departments = departmentService.getDepartmentById(id);
         return departments;
     }
 
     @PutMapping("/departmentId/{id}")
-    public ResponseEntity<Department> updateDepartmentAndEmployee(@PathVariable Long id, @RequestBody Department departmentDetails) {
+    public ResponseEntity<Department> updateDepartmentAndEmployee(@PathVariable String id, @RequestBody Department departmentDetails) {
         Department updatedDepartment = departmentService.updateDepartmentAndEmployee(id, departmentDetails);
         return ResponseEntity.ok(updatedDepartment);
     }
 
     @GetMapping("/dep/{id}")
-    public ResponseEntity<Map<String, String>> getDepartmentById(@PathVariable Long id) {
+    public ResponseEntity<Map<String, String>> getDepartmentById(@PathVariable String id) {
         Optional<Department> department = departmentService.getDepartmentById(id);
         if (department.isPresent()) {
             Map<String, String> response = new HashMap<>();
