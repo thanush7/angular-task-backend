@@ -13,18 +13,16 @@ import jakarta.persistence.OneToMany;
 public class Department {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+    // @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private String id;
+    
     private String name;
 
-    // One Department can have many Employees
     @OneToMany(mappedBy = "department", cascade = CascadeType.ALL, orphanRemoval = true)
     // @JsonBackReference
     private List<Employee> employees;
 
-    // Getters and Setters
-    public Long getId() {
+    public String getId() {
         return id;
     }
 

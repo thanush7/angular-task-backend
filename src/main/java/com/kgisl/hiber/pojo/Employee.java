@@ -26,13 +26,12 @@ public class Employee {
 
     private String city;
 
-    // Many Employees belong to one Department
     @ManyToOne
     @JoinColumn(name = "department_id")
     @JsonBackReference
     private Department department;
 
-    // Getters and Setters
+
     public Long getId() {
         return id;
     }

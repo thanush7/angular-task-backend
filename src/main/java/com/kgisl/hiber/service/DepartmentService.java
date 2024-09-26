@@ -111,4 +111,9 @@ public class DepartmentService {
             throw new RuntimeException("Department not found with id " + id);
         }
     }
+    public String getDepartmentName(Long id){
+        Optional<Department> department=departmentRepository.findById(id);
+        return department.get().getName();
+        
+    }
 }

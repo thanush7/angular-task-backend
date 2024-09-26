@@ -1,6 +1,8 @@
 package com.kgisl.hiber.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -101,5 +103,17 @@ public class DepartmentController {
     public ResponseEntity<Department> updateDepartmentAndEmployee(@PathVariable Long id, @RequestBody Department departmentDetails) {
         Department updatedDepartment = departmentService.updateDepartmentAndEmployee(id, departmentDetails);
         return ResponseEntity.ok(updatedDepartment);
+    }
+
+    @GetMapping("/dep/{id}")
+    public ResponseEntity<Map<String, String>> getDepartmentById(@PathVariable Long id) {
+        Optional<Department> department = departmentService.getDepartmentById(id);
+        if (department.isPresent()) {
+            Map<String, String> response = new HashMap<>();
+            response.put("name", department.get().getName());
+            return ResponseEntity.ok(response);  // Returning JSON object { "name": "Department Name" }
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();  // Return 404 if department not found
+        }
     }
 }
