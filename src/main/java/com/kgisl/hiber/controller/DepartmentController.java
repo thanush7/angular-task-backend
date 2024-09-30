@@ -1,11 +1,11 @@
 package com.kgisl.hiber.controller;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -22,7 +22,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kgisl.hiber.pojo.Department;
 import com.kgisl.hiber.pojo.Employee;
 import com.kgisl.hiber.service.DepartmentService;
@@ -32,8 +34,26 @@ import com.kgisl.hiber.service.DepartmentService;
 @CrossOrigin(origins = "http://localhost:4200")
 public class DepartmentController {
 
-    @Autowired
-    private DepartmentService departmentService;
+//    @Autowired
+//    private DepartmentService departmentService;
+	
+	private final DepartmentService departmentService;
+    private final ObjectMapper objectMapper;  // Jackson object mapper for parsing JSON
+
+    public DepartmentController(DepartmentService departmentService, ObjectMapper objectMapper) {
+        this.departmentService = departmentService;
+        this.objectMapper = objectMapper;
+    }
+    
+    @PostMapping("/upload-json")
+    public ResponseEntity<Map<String, String>> uploadJsonFile(@RequestParam("file") MultipartFile file) {
+        try {
+            departmentService.saveDepartmentsFromJson(file);
+            return ResponseEntity.ok(Map.of("message", "Departments uploaded successfully!"));
+        } catch (IOException e) {
+            return ResponseEntity.status(500).body(Map.of("error", "Error processing file: " + e.getMessage()));
+        }
+    }
 
 //    @PostMapping
 //    public String createDepartmentWithEmployees(@RequestBody Department department) {
@@ -53,6 +73,7 @@ public class DepartmentController {
 //    	PageRequest pageable=PageRequest.of(page, size);
 //        return departmentService.getEmployeesByDepartmentId(departmentId,pageable);
 //    }
+    
     //change from getmapping to postmapping 
     @PostMapping("/employee-by-department")
     public Page<Employee> getEmployeeByDepartmentId(
@@ -67,12 +88,10 @@ public class DepartmentController {
         return departmentService.getEmployeesByDepartmentId(request.getDepartmentId(),pageable, searchTerm);
     }
 
-
-//    @SuppressWarnings("rawtypes")
-//    @DeleteMapping("/{id}")
-//    public ResponseEntity deleteEmployee(@PathVariable String id) {
-//        return departmentService.deleteEmployee(id);
-//    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteEmployee(@PathVariable String id) {
+        return departmentService.deleteEmployee(id);
+    }
     @PostMapping("/allDepartment")
     public Page<Department> getDepartmentsWithSearch(@RequestBody Map<String, Object> params) {
         int page = (int) params.get("page");
@@ -148,6 +167,15 @@ public class DepartmentController {
 //            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
 //        }
 //    }
+    @PostMapping("/whole")
+    public ResponseEntity<List<Department>> getAllDepartmentsWithEmployees(@RequestBody(required = false) Department request) {
+        List<Department> departments = departmentService.getAllDepartmentsWithEmployees();
+        if (departments != null && !departments.isEmpty()) {
+            return ResponseEntity.ok(departments);
+        } else {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+        }
+    }
 //
     @GetMapping("/departmentId/{id}")
     public Optional<Department> getAllDeparmentwithEmployeeById(@PathVariable String id) {

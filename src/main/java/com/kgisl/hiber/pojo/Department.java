@@ -22,7 +22,6 @@ public class Department {
     private String name;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    // @JsonBackReference
     @JoinColumn(name = "departmentid", referencedColumnName = "id")
     private List<Employee> employees;
     
