@@ -2,27 +2,43 @@ package com.kgisl.hiber.pojo;
 
 
 import  java.util.*;
+
+import org.springframework.data.domain.Page;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 
 @Entity
 public class Department {
 
     @Id
-    // @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
     
     private String name;
 
-    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     // @JsonBackReference
+    @JoinColumn(name = "departmentid", referencedColumnName = "id")
     private List<Employee> employees;
+    
+    public Department() {
+	}
+    
 
-    public String getId() {
+	public Department(String id, String name, List<Employee> employees) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.employees = employees;
+	}
+
+
+	public String getId() {
         return id;
     }
 

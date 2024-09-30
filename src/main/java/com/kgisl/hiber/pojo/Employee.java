@@ -13,7 +13,6 @@ import jakarta.persistence.ManyToOne;
 public class Employee {
 
     @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
 
     private String name;
@@ -25,18 +24,35 @@ public class Employee {
     private String gender;
 
     private String city;
+    
 
-    @ManyToOne
-    @JoinColumn(name = "department_id")
-    @JsonBackReference
-    private Department department;
+    
+    
 
+//    @ManyToOne
+//    @JoinColumn(name = "department_id")
+//    @JsonBackReference
+//    private Department department;
 
-    public String getId() {
+	public String getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public Employee() {
+
+}
+
+	public Employee(String id, String name, String email, String mobile, String gender, String city) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.email = email;
+		this.mobile = mobile;
+		this.gender = gender;
+		this.city = city;
+	}
+
+	public void setId(String id) {
         this.id = id;
     }
 
@@ -48,13 +64,13 @@ public class Employee {
         this.name = name;
     }
 
-    public Department getDepartment() {
-        return department;
-    }
-
-    public void setDepartment(Department department) {
-        this.department = department;
-    }
+//    public Department getDepartment() {
+//        return department;
+//    }
+//
+//    public void setDepartment(Department department) {
+//        this.department = department;
+//    }
 
     public String getEmail() {
         return this.email;
